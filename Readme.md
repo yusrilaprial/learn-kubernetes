@@ -66,6 +66,13 @@ kubectl port-forward <pod-name> 8080:80
 kubectl label pod <pod-name> <label-key>=<label-value>
 # Add label to pod by command overwrite
 kubectl label pod <pod-name> <label-key>=<label-value> --overwrite
+
+# Delete a pod
+kubectl delete pod <pod-name>
+kubectl delete pod <pod-name> <pod-name> ...
+
+# Delete all pod in a namespace
+kubectl delete pods --all --namespace <namespace-name>
 ```
 
 ## Labels
@@ -96,6 +103,51 @@ kubectl annotate pod <pod-name> <annotation-key>="<annotation-value>"
 # Add annotation to pod by command overwrite
 kubectl annotate pod <pod-name> <annotation-key>="<annotation-value>" --overwrite
 ```
+
+## Namespace
+
+Namespaces are a way to divide cluster resources between multiple users. They are intended for use in environments with many users spread across multiple teams or projects.
+
+Commands:
+
+```bash
+# List all namespaces
+kubectl get namespaces
+
+# Get detailed information about a namespace
+kubectl describe namespace <namespace-name>
+
+# Get Pods in a namespace
+kubectl get pods --namespace <namespace-name>
+kubectl get pods -n <namespace-name>
+
+# Create a namespace
+kubectl create namespace <namespace-name>
+
+# Create a pod in a namespace
+kubectl create -f <filepod.yaml> --namespace <namespace-name>
+
+# Delete a namespace
+kubectl delete namespace <namespace-name>
+```
+
+## Probe
+
+Probes are diagnostic tools that are built into Kubernetes. They are used to determine the health of a container.
+
+There are three types of probes:
+- **Liveness Probe**: Indicates whether the container is running. If the liveness probe fails, the container will be restarted.
+- **Readiness Probe**: Indicates whether the container is ready to serve traffic. If the readiness probe fails, the container will be removed from the service.
+- **Startup Probe**: Indicates whether the container is ready to serve traffic. If the startup probe fails, the container will be restarted.
+
+Methods for probes:
+- **HTTP Get**: Makes an HTTP GET request to the specified path on the container.
+- **Exec**: Executes a command inside the container.
+- **TCP Socket**: Opens a TCP connection to the specified port on the container.
+
+## Replication Controller
+
+A Replication Controller ensures that a specified number of pod replicas are running at any one time. If there are too many pods, the Replication Controller will kill some. If there are too few, the Replication Controller will start more.
 
 # References
 
