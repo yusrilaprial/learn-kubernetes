@@ -111,6 +111,9 @@ Namespaces are a way to divide cluster resources between multiple users. They ar
 Commands:
 
 ```bash
+# Create a namespace
+kubectl create namespace <namespace-name>
+
 # List all namespaces
 kubectl get namespaces
 
@@ -148,6 +151,41 @@ Methods for probes:
 ## Replication Controller
 
 A Replication Controller ensures that a specified number of pod replicas are running at any one time. If there are too many pods, the Replication Controller will kill some. If there are too few, the Replication Controller will start more.
+
+Commands:
+
+```bash
+# Create a Replication Controller
+kubectl create -f <filereplicationcontroller.yaml>
+
+# List all Replication Controllers
+kubectl get replicationcontrollers
+kubectl get rc
+
+# Get detailed information about a Replication Controller
+kubectl describe rc <replicationcontroller-name>
+
+# Delete a Replication Controller
+kubectl delete rc <replicationcontroller-name>
+
+# Delete a replication controller without deleting the pods
+kubectl delete rc <replicationcontroller-name> --cascade=false
+```
+
+## Replica Set
+
+A Replica Set is the next-generation Replication Controller. It is similar to a Replication Controller, but it has more powerful selector support.
+
+Commands:
+
+```bash
+# Create a Replica Set
+kubectl create -f <filereplicaset.yaml>
+
+# List all Replica Sets
+kubectl get replicaset
+kubectl get rs
+```
 
 # References
 
