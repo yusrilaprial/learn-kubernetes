@@ -62,6 +62,9 @@ kubectl describe pod <pod-name>
 # Access Pod for Testing Runing or Not
 kubectl port-forward <pod-name> 8080:80
 
+# Exec into Pod
+kubectl exec -it <pod-name> -- /bin/bash
+
 # Add label to pod by command
 kubectl label pod <pod-name> <label-key>=<label-value>
 # Add label to pod by command overwrite
@@ -187,6 +190,90 @@ kubectl get replicaset
 kubectl get rs
 ```
 
+### Match Expression
+
+Match Expressions are used to select the pods that the Replica Set will manage.
+
+Operators:
+- **In**: Selects the pods that have the specified value in the specified key.
+- **NotIn**: Selects the pods that do not have the specified value in the specified key.
+- **Exists**: Selects the pods that have the specified key.
+- **DoesNotExist**: Selects the pods that do not have the specified key.
+
+## Daemon Set
+
+A Daemon Set ensures that all (or some) nodes run a copy of a pod. As nodes are added to the cluster, pods are added to them. As nodes are removed from the cluster, those pods are garbage collected.
+
+Commands:
+
+```bash
+# Create a Daemon Set
+kubectl create -f <filedaemonset.yaml>
+
+# List all Daemon Sets
+kubectl get daemonsets
+kubectl get ds
+```
+
+## Job
+
+A Job creates one or more pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the Job tracks the successful completions. When a specified number of successful completions is reached, the task is complete.
+
+Commands:
+
+```bash
+# Create a Job
+kubectl create -f <filejob.yaml>
+
+# List all Jobs
+kubectl get jobs
+```
+
+## Cron Job
+
+A Cron Job creates a job on a repeating schedule.
+
+Commands:
+
+```bash
+# Create a Cron Job
+kubectl create -f <filecronjob.yaml>
+
+# List all Cron Jobs
+kubectl get cronjobs
+```
+
+## Node Selector
+
+Node Selectors are used to constrain the set of nodes that a pod is eligible to be scheduled on.
+
+Commands:
+
+```bash
+# Add label to node by command
+kubectl label node <node-name> <label-key>=<label-value>
+```
+
+## Service
+
+A Service is an abstraction that defines a logical set of pods and a policy by which to access them. Services enable a loose coupling between dependent pods. labels are used to select the pods that the service will route traffic to. Services can be exposed in different ways by specifying a type in the ServiceSpec. There are four supported service types:
+- **ClusterIP**: Exposes the service on a cluster-internal IP. Choosing this value makes the service only reachable from within the cluster.
+    - DNS name: `<service-name>.<namespace-name>.svc.cluster.local:<port>` (e.g., my-service.default.svc.cluster.local:8080)
+    - IP: `<cluster-ip>:<port>`
+- **NodePort**: Exposes the service on each Node's IP at a static port. A ClusterIP service, to which the NodePort service will route, is automatically created.
+- **LoadBalancer**: Exposes the service externally using a cloud provider's load balancer. NodePort and ClusterIP services, to which the external load balancer will route, are automatically created.
+- **ExternalName**: Maps the service to the contents of the externalName field (e.g., foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up.
+
+Commands:
+
+```bash
+# Create a Service
+kubectl create -f <fileservice.yaml>
+
+# List all Services
+kubectl get services
+```
+
 # References
 
-- [PZN](https://github.com/khannedy/belajar-kubernetes/tree/master)
+- [Programmer Zaman Now](https://github.com/khannedy/belajar-kubernetes)
