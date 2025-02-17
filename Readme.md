@@ -274,6 +274,23 @@ kubectl create -f <fileservice.yaml>
 kubectl get services
 ```
 
+## Ingress
+
+An Ingress is an API object that manages external access to services in a cluster. It provides HTTP and HTTPS routing to services based on the host and path.
+
+Commands:
+
+```bash
+# Create an Ingress
+kubectl create -f <fileingress.yaml>
+
+# List all Ingresses
+kubectl get ingresses
+
+# Get detailed information about an Ingress
+kubectl describe ingress <ingress-name>
+```
+
 # References
 
 - [Programmer Zaman Now](https://github.com/khannedy/belajar-kubernetes)
