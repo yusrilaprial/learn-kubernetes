@@ -291,6 +291,50 @@ kubectl get ingresses
 kubectl describe ingress <ingress-name>
 ```
 
+## Multi Container Pod
+
+Multi-Container Pods in Kubernetes are Pods that run more than one container inside them. These containers share common resources, such as network namespaces, IPC namespaces, and sometimes volumes. This allows for very efficient communication between containers within a single Pod.
+
+## Volume
+
+A Volume in Kubernetes is a directory containing data, accessible to all containers within a Pod. It's a mechanism to persist data independently of the Pod's lifecycle, meaning that even if a Pod is terminated and restarted, the data in the volume persists.
+
+- **emptyDir**: A simple, empty directory created when the Pod is created and deleted when the Pod is removed from the node. Useful for temporary storage shared between containers in the same Pod.
+- **hostPath**: Mounts a directory from the underlying host node into the Pod. Useful for accessing resources on the host machine, but less portable.
+- etc.
+
+## Config Map
+
+A ConfigMap in Kubernetes is an API object used to store non-confidential data in key-value pairs. This data can then be consumed by applications running in Pods. Essentially, it provides a mechanism to decouple configuration from your application images, making them more portable and configurable.
+
+Commands:
+
+```bash
+# Show config map
+kubectl get configmaps
+
+# Detail config map
+kubectl describe configmap <configmap-name>
+
+# Delete config map
+kubectl delete configmap <configmap-name>
+```
+
+## Secret
+
+Secrets are objects used to store sensitive data, such as passwords, OAuth tokens, SSH keys, and certificates. Secrets ensure that this data is not exposed in the Pod configuration or other visible Kubernetes resources.
+
+```bash
+# Show secret
+kubectl get secrets
+
+# Detail secret
+kubectl describe secret <secret-name>
+
+# Delete secret
+kubectl delete secret <secret-name>
+```
+
 # References
 
 - [Programmer Zaman Now](https://github.com/khannedy/belajar-kubernetes)
