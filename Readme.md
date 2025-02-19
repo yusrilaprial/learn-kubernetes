@@ -335,6 +335,114 @@ kubectl describe secret <secret-name>
 kubectl delete secret <secret-name>
 ```
 
+## Imperative Management
+
+```bash
+# Create Kubernetes Object
+kubectl create -f <file.yaml>
+
+# Update Kubernetes Object
+kubectl replace -f <file.yaml>
+
+# Show Kubernetes Object
+kubectl get -f <file.yaml> -o yaml/json
+
+# Delete Kubernetes Object
+kubectl delete -f <file.yaml>
+```
+
+## Declarative Management
+
+```bash
+kubectl apply -f <file.yaml>
+```
+
+## Deployment
+
+A Deployment is a declarative way to manage stateless applications in Kubernetes. You describe the desired state of your application (like the number of replicas, the container image, resources, etc.) in a YAML file, and the Deployment controller ensures that the current state matches the desired state. It manages ReplicaSets, which in turn manages Pods.
+
+## Rollout
+
+Rollouts are a way to manage the update process of your deployments.  They allow you to control the speed and safety of updates, ensuring minimal disruption to your application.  They provide features like progressive rollouts, rollbacks, and pausing updates.
+
+```bash
+kubectl rollout status deployment <deployment-name>
+kubectl rollout history deployment <deployment-name>
+kubectl rollout undo deployment <deployment-name>
+kubectl rollout pause deployment <deployment-name>
+kubectl rollout resume deployment <deployment-name>
+```
+
+## Persistent Volume
+
+Persistent Volumes (PVs) are pieces of storage in a Kubernetes cluster that have a lifecycle independent of any individual Pod. This means that a PV can outlive the Pods that use it, allowing data to persist even if the Pod is deleted or rescheduled. PVs are provisioned by an administrator and are a cluster-wide resource. They abstract the underlying storage implementation (whether it's a network file system, a cloud provider's block storage, or a local disk) from the users.
+
+```bash
+# List all Persistent Volumes
+kubectl get pv
+
+# Get detailed information about a Persistent Volume
+kubectl describe pv <pv-name>
+
+# Delete a Persistent Volume
+kubectl delete pv <pv-name>
+
+# List all Persistent Volume Claims
+kubectl get pvc
+
+# Get detailed information about a Persistent Volume Claim
+kubectl describe pvc <pvc-name>
+
+# Delete a Persistent Volume Claim
+kubectl delete pvc <pvc-name>
+```
+
+## Stateful Set
+
+A StatefulSet is a workload API object that manages stateful applications in Kubernetes. It's designed specifically for applications that require stable, persistent storage, ordered deployments, and unique network identifiers. Think of databases, distributed file systems, or other applications where the order of deployment and persistent identity are crucial.
+
+```bash
+# Create a Stateful Set
+kubectl create -f <filestatefulset.yaml>
+
+# List all Stateful Sets
+kubectl get statefulsets
+kubectl get sts
+
+# Get detailed information about a Stateful Set
+kubectl describe sts <statefulset-name>
+
+# Delete a Stateful Set
+kubectl delete sts <statefulset-name>
+```
+
+## Computational Resources
+
+Kubernetes allows you to specify resource requests and limits for each container. These resources are then managed by the Kubernetes scheduler to ensure that Pods are placed on nodes with sufficient capacity.
+
+Here's a breakdown related to computational resources in Kubernetes:
+- Requests: The amount of CPU and Memory that a container requests from the Kubernetes scheduler. This is the minimum amount that the container is guaranteed to receive.
+- Limits: The maximum amount of CPU and Memory that a container can consume. If a container attempts to use more resources than its limit, it may be throttled or terminated.
+
+These requests and limits are specified in the Pod spec using resource units:
+- CPU: Measured in CPU units (cores or millicores). For example, 100m is 100 millicores, which is equivalent to 0.1 CPU cores. 1 represents 1 CPU core.
+- Memory: Measured in bytes. You can use suffixes like Mi, Gi, etc. For example, 128Mi represents 128 mebibytes of memory.
+
+Example in a Pod spec:
+```yml
+spec:
+  containers:
+  - name: my-container
+    image: my-image
+    resources:
+      requests:
+        cpu: 500m
+        memory: 256Mi
+      limits:
+        cpu: 1
+        memory: 512Mi
+```
+
 # References
 
 - [Programmer Zaman Now](https://github.com/khannedy/belajar-kubernetes)
