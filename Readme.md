@@ -421,12 +421,12 @@ kubectl delete sts <statefulset-name>
 Kubernetes allows you to specify resource requests and limits for each container. These resources are then managed by the Kubernetes scheduler to ensure that Pods are placed on nodes with sufficient capacity.
 
 Here's a breakdown related to computational resources in Kubernetes:
-- Requests: The amount of CPU and Memory that a container requests from the Kubernetes scheduler. This is the minimum amount that the container is guaranteed to receive.
-- Limits: The maximum amount of CPU and Memory that a container can consume. If a container attempts to use more resources than its limit, it may be throttled or terminated.
+- **Requests**: The amount of CPU and Memory that a container requests from the Kubernetes scheduler. This is the minimum amount that the container is guaranteed to receive.
+- **Limits**: The maximum amount of CPU and Memory that a container can consume. If a container attempts to use more resources than its limit, it may be throttled or terminated.
 
 These requests and limits are specified in the Pod spec using resource units:
-- CPU: Measured in CPU units (cores or millicores). For example, 100m is 100 millicores, which is equivalent to 0.1 CPU cores. 1 represents 1 CPU core.
-- Memory: Measured in bytes. You can use suffixes like Mi, Gi, etc. For example, 128Mi represents 128 mebibytes of memory.
+- **CPU**: Measured in CPU units (cores or millicores). For example, 100m is 100 millicores, which is equivalent to 0.1 CPU cores. 1 represents 1 CPU core.
+- **Memory**: Measured in bytes. You can use suffixes like Mi, Gi, etc. For example, 128Mi represents 128 mebibytes of memory.
 
 Example in a Pod spec:
 ```yml
@@ -441,6 +441,45 @@ spec:
       limits:
         cpu: 1
         memory: 512Mi
+```
+
+## Horizontal Pod Autoscaler (HPA)
+
+An HPA automatically adjusts the number of pods in a Deployment, ReplicaSet, StatefulSet, or ReplicationController based on observed metrics. This dynamic scaling ensures your application can handle varying loads while optimizing resource utilization.
+
+Key Concepts:
+- **Metrics:**  HPA uses metrics to make scaling decisions. Common metrics include CPU utilization, memory utilization, and custom metrics (e.g., requests per second).
+- **Target Value:** The desired average value for the chosen metric (e.g., 70% CPU utilization).
+- **Minimum and Maximum Replicas:** The HPA operates within these bounds, preventing runaway scaling.
+- **Scaling Algorithm:**  The HPA's control loop uses an algorithm to calculate the desired number of pods.
+- **Cooldown Period:** After scaling, the HPA waits for a cooldown period before further scaling actions.
+
+How it Works:
+1. **Metric Collection:** The HPA queries the metrics server (or custom metrics API) for resource utilization.
+2. **Target Calculation:** The HPA compares current metrics to the target and calculates the desired replica count.
+3. **Replica Adjustment:** The HPA adjusts the replica count of the target deployment (or other scalable object).
+4. **Cooldown:**  The HPA enters a cooldown period to prevent rapid scaling oscillations.
+
+Example:
+```yml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-app
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
 ```
 
 # References
